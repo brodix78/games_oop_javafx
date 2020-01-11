@@ -43,7 +43,7 @@ public class Logic {
         this.index = 0;
     }
 
-    public int findBy(Cell cell) {
+    private int findBy(Cell cell) {
         int rst = -1;
         for (int index = 0; index != this.figures.length; index++) {
             if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
@@ -54,7 +54,7 @@ public class Logic {
         return rst;
     }
 
-    public Cell figOnWay(Cell[] steps) {
+    private Cell figOnWay(Cell[] steps) {
         Cell rsl = null;
         for (Cell cell : steps) {
             if (this.findBy(cell) != -1) {
