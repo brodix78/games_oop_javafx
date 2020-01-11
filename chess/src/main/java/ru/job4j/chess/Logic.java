@@ -4,7 +4,6 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * //TODO add comments.
@@ -25,10 +24,13 @@ public class Logic {
         boolean rst = false;
         int index = this.findBy(source);
         if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
+            try {
+                Cell[] steps = this.figures[index].way(source, dest);
+                if (steps.length > 0 && steps[steps.length - 1].equals(dest) && this.figOnWay(steps) == null) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
+                }
+            } catch (IllegalStateException moe) {
             }
         }
         return rst;
@@ -41,7 +43,7 @@ public class Logic {
         this.index = 0;
     }
 
-    private int findBy(Cell cell) {
+    public int findBy(Cell cell) {
         int rst = -1;
         for (int index = 0; index != this.figures.length; index++) {
             if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
@@ -50,6 +52,17 @@ public class Logic {
             }
         }
         return rst;
+    }
+
+    public Cell figOnWay(Cell[] steps) {
+        Cell rsl = null;
+        for (Cell cell : steps) {
+            if (this.findBy(cell) != -1) {
+                rsl = cell;
+                break;
+            }
+        }
+        return rsl;
     }
 
     @Override
