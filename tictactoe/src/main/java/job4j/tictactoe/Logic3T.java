@@ -40,7 +40,7 @@ public class Logic3T {
             }
             if (g == size || v == size) {
                 rsl = true;
-                System.out.println(rsl);
+                break;
             }
             if (who.test(table[i][i])) {
                 cl++;
