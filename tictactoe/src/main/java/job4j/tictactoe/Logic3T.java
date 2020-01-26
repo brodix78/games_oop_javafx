@@ -24,35 +24,22 @@ public class Logic3T {
 
     private boolean checkWin(Predicate<Figure3T> who) {
         boolean rsl = false;
-        int size = table.length;
+        int size = this.table.length;
         int cl = 0;
         int cr = 0;
         for (int i = 0; i < size; i++) {
             int v = 0;
             int g = 0;
-            for (int n = 0; n < size; n++) {
-                if (who.test(table[i][n])) {
-                    g++;
-                }
-                if (who.test(table[n][i])) {
-                    v++;
-                }
-            }
+            while (g < size && who.test(this.table[i][g++])) {}
+            while (v < size && who.test(this.table[v++][i])) {}
             if (g == size || v == size) {
                 rsl = true;
                 break;
             }
-            if (who.test(table[i][i])) {
-                cl++;
-            }
-            if (who.test(table[i][size - i - 1])) {
-                cr++;
-            }
         }
-        if (cl == size || cr == size) {
-            rsl = true;
-        }
-        return rsl;
+        while (cl < size && who.test(this.table[cl][cl++])) {}
+        while (cr < size && who.test(this.table[cr][size - 1 - cr++])) {}
+        return rsl || cl == size || cr == size;
     }
 
     public boolean hasGap() {
